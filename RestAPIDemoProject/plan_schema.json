@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "objectName": "plan",
+  "type": "object",
+  "properties": {
+    "benefits": {
+      "type": "array",
+      "items": {
+        "objectName": "benefit",
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "objectName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "objectName",
+          "price",
+          "description",
+          "name"
+        ]
+      }
+    },
+    "endDate": {
+      "type": "string"
+    },
+    "totalPrice": {
+      "type": "string"
+    },
+    "objectName": {
+      "type": "string"
+    },
+    "_id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "objectName",
+    "startDate",
+    "endDate",
+    "totalPrice",
+    "userId",
+    "benefits"
+  ]
+}
