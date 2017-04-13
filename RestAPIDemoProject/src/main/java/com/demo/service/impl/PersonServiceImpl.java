@@ -111,7 +111,7 @@ public class PersonServiceImpl implements PersonService {
 					JSONArray objectKeys = new JSONArray();
 					int count = 0;
 					for (Object object : propertyArray) {
-						objectType = (String) ((JSONObject) object).get("objectName");
+						objectType = (String) ((JSONObject) object).get("_type");
 						jedis.incr(objectType);
 						uid = objectType + "__" + jedis.get(objectType);
 						((JSONObject) object).put("_createdOn", getUnixTimestamp());
@@ -132,7 +132,7 @@ public class PersonServiceImpl implements PersonService {
 				} else if (property instanceof JSONObject) {
 					System.out.println("Inside else");
 					JSONObject jsonObject = new JSONObject();
-					objectType = (String) ((JSONObject) property).get("objectName");
+					objectType = (String) ((JSONObject) property).get("_type");
 					// jsonObject.put("objectType", objectType);
 					if (objectType.equals("user")) {
 						String userString = userService.newAddUser((JSONObject) property);
@@ -162,7 +162,7 @@ public class PersonServiceImpl implements PersonService {
 				responseObject.put("ETag", calculateETag(personObject));
 			}
 			// Metadata is stored jedis.
-			jedis.set((String) responseObject.get(bodyObj.get("objectName")), personObject.toString());
+			jedis.set((String) responseObject.get(bodyObj.get("_type")), personObject.toString());
 			// Send Metadata to elasticsearch
 			// queueService.sendMessage(personObject);
 			System.out.println("response" + responseObject.toJSONString());
@@ -211,7 +211,7 @@ public class PersonServiceImpl implements PersonService {
 							count++;
 							String key = (String) ((JSONObject) object).get(Integer.toString(count));
 							JSONObject arrayEntry = (JSONObject) parser.parse(jedis.get(key));
-							objectType = (String) arrayEntry.get("objectName");
+							objectType = (String) arrayEntry.get("_type");
 							arrayEntries.add(arrayEntry);
 						}
 						response.put(objectType, arrayEntries);
@@ -292,7 +292,7 @@ public class PersonServiceImpl implements PersonService {
 
 	private void processInitialData(Jedis jedis, Map<String, Object> bodyObj, JSONObject personObject,
 			JSONObject responseObject) {
-		String objectType = (String) bodyObj.get("objectName");
+		String objectType = (String) bodyObj.get("_type");
 		jedis.incr(objectType);
 		String uid = objectType + "__" + jedis.get(objectType);
 		personObject.put("_createdOn", getUnixTimestamp());

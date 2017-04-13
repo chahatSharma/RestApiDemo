@@ -25,7 +25,7 @@ public class SchemaController {
             JSONParser parser = new JSONParser();
             try {
                 Map<String, Object> object = (Map<String, Object>) parser.parse(entity);
-                String objectName = (String) object.get("objectName");
+                String objectName = (String) object.get("_type");
                 return schemaService.addSchemaToRedis(entity, objectName);
 
             } catch (ParseException e) {

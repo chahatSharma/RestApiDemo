@@ -138,7 +138,7 @@ public class UserController {
         try {
             JSONObject bodyObject = (JSONObject) new JSONParser().parse(body);
             Validate.notNull(bodyObject);
-            String pathToSchema = (String) bodyObject.get("objectName");
+            String pathToSchema = (String) bodyObject.get("_type");
             try {
                 if (schemaService.validateSchema("SCHEMA__" + pathToSchema, body)) {
                     String result = userService.newAddUser(bodyObject);

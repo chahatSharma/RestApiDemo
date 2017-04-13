@@ -108,7 +108,7 @@ public class SchemaControllerTest {
                               HashMap<Object, Object> hashMap
     ) throws ParseException {
         int id = RandomUtils.nextInt();
-        String objectType = (String) rootNode.get("objectName");
+        String objectType = (String) rootNode.get("_type");
         for (String objectKey : rootNode.keySet())
         {
             Object objectNode = rootNode.get(objectKey);

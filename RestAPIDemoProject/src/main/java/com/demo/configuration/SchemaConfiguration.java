@@ -26,17 +26,20 @@ public class SchemaConfiguration
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
        
-        String schema__person = jedisConnection.get("SCHEMA_person");
+        String schema__person = jedisConnection.get("SCHEMA__person");
         if (StringUtils.isBlank(schema__person)) {
            
             String schemaAsString = getSchemaAsString("person_schema.json");
             String result = _schemaService.addNewSchema(schemaAsString);
             
         }
-        String schema__benefit = jedisConnection.get("SCHEMA__benefit");
+        String schema__benefit = jedisConnection.get("SCHEMA__plan1");
+        System.out.println("schema__benefit"+schema__benefit);
         if (StringUtils.isBlank(schema__benefit)) {
             log.info("Creating Plan Schema");
-            String schemaAsString = getSchemaAsString("plan_schema.json");
+            String schemaAsString = getSchemaAsString("plan_schema1.json");
+           
+            	System.out.println("contains objectName" + schemaAsString);
             String result = _schemaService.addNewSchema(schemaAsString);
             //log.info("Result: " + result);
         }

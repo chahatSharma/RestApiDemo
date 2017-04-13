@@ -91,10 +91,11 @@ public class SchemaServiceImpl implements SchemaService {
 
             ProcessingReport report = null;
             report = validator.validateUnchecked(s, d, Boolean.TRUE);
-//            if (isSchemaFreeFromErrors(report))
-//            {
-//                log.info("Schema is free form warnings");
-//            }
+            System.out.println("report" +report);
+            if (isSchemaFreeFromErrors(report))
+            {
+                log.info("Schema is free form warnings");
+            }
             if (report != null) {
                 if (!report.toString().contains("success")) {
                     throw new ProcessingException(report.toString());
@@ -126,10 +127,12 @@ public class SchemaServiceImpl implements SchemaService {
         try {
             Map<String, String> response = new HashMap<>();
             Map<String, Object> schemaObject = (HashMap<String, Object>) parser.parse(schemaBody);
+           
             Map<String, JSONObject> properties = (HashMap<String, JSONObject>) schemaObject.get("properties");
-            String schemaKey = SCHEMA_PREFIX + schemaObject.get("objectName");
+            String schemaKey = SCHEMA_PREFIX + schemaObject.get("_type");
+            System.out.println("schemaKey" + schemaKey);
             jedis.set(schemaKey, schemaObject.toString());
-            response.put((String) schemaObject.get("objectName"), schemaKey);
+            response.put((String) schemaObject.get("_type"), schemaKey);
             for (String propertyKey : properties.keySet()) {
                 JSONObject property = properties.get(propertyKey);
                 String objectType = (String) property.get("type");
@@ -138,17 +141,39 @@ public class SchemaServiceImpl implements SchemaService {
                     String objectName = "";
                     if (objectType.equals("array")) {
                         newObjectSchema = (JSONObject) property.get("items");
-                        objectName = (String) newObjectSchema.get("objectName");
+                        objectName = (String) newObjectSchema.get("_type");
+                       
+                        Map<String, JSONObject> arrayProperties = (HashMap<String, JSONObject>)  newObjectSchema.get("properties");
+                       
+                        for(String propKey: arrayProperties.keySet())
+                        {
+                        	JSONObject prop = arrayProperties.get(propKey);
+                        	String propObjectType = (String) prop.get("type");
+                        	if (propObjectType.equals("object")) {
+                            JSONObject  newPropObjectSchema = prop;
+                              String  propObjectName = (String) prop.get("_type");
+                              schemaKey = SCHEMA_PREFIX + propObjectName;
+                              System.out.println("Inside array if" + schemaKey);
+                              jedis.set(schemaKey, newPropObjectSchema.toJSONString());
+                              System.out.println("chahat" + newPropObjectSchema.toJSONString());
+                              response.put(propObjectName, schemaKey);
+                            }
+                        	
+                        }
+                        
+                        
+     
+                        
                     } else if (objectType.equals("object")) {
                         newObjectSchema = property;
-                        objectName = (String) property.get("objectName");
+                        objectName = (String) property.get("_type");
                     }
-
+                    System.out.println("objectName --> "+objectName  + " propertyKey -->" + propertyKey);
                     schemaKey = SCHEMA_PREFIX + objectName;
-                    System.out.println("schemaKey" + schemaKey);
-                    System.out.println("schema" + newObjectSchema.toJSONString());
+                    
                     jedis.set(schemaKey, newObjectSchema.toJSONString());
                     response.put(objectName, schemaKey);
+                    System.out.println("response" + response);
                 }
             }
             return response.toString();

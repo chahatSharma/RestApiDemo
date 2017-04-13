@@ -164,7 +164,7 @@ public class UserServiceImpl
                     JSONArray objectKeys = new JSONArray();
                     int count = 0;
                     for (Object object : propertyArray) {
-                        objectType = (String) ((JSONObject) object).get("objectName");
+                        objectType = (String) ((JSONObject) object).get("_type");
                        
                         uid = processAndGetUid(jedis, objectType, (JSONObject) object);
                         //Add to Jedis
@@ -178,7 +178,7 @@ public class UserServiceImpl
                     userObject.put(objectType, objectKeys);
                     responseObject.put(objectType, objectKeys);
                 } else if (property instanceof JSONObject) {System.out.println("property" + property);
-                    objectType = (String) ((JSONObject) property).get("objectName");
+                    objectType = (String) ((JSONObject) property).get("_type");
 System.out.println("objectType" + objectType);
                     if (objectType.equals("userRole")) {
                         role = (String) ((JSONObject) property).get("roleName");
@@ -204,7 +204,7 @@ System.out.println("role" + role);
             }
             userObject.put("eTag", calculateETag(userObject));
             responseObject.put("eTag", userObject.get("eTag"));
-            jedis.set((String) responseObject.get(bodyObj.get("objectName")), userObject.toJSONString());
+            jedis.set((String) responseObject.get(bodyObj.get("_type")), userObject.toJSONString());
             //_queueService.sendMessage(userObject);
             return responseObject.toJSONString();
 
@@ -240,7 +240,7 @@ System.out.println("role" + role);
                                     Map<String, Object> bodyObj,
                                     JSONObject userObject,
                                     JSONObject responseObject) {
-        String objectType = (String) bodyObj.get("objectName");
+        String objectType = (String) bodyObj.get("_type");
         jedis.incr(objectType);
         String uid = objectType + "__" + jedis.get(objectType);
         userObject.put("_id", uid);
@@ -291,7 +291,7 @@ System.out.println("role" + role);
                                 count++;
                                 String key = (String) ((JSONObject) object).get(Integer.toString(count));
                                 JSONObject arrayEntry = (JSONObject) parser.parse(jedis.get(key));
-                                objectType = (String) arrayEntry.get("objectName");
+                                objectType = (String) arrayEntry.get("_type");
                                 arrayEntries.add(arrayEntry);
                             }
                             response.put(objectType, arrayEntries);
@@ -353,7 +353,7 @@ System.out.println("role" + role);
                     JSONObject objectToBeChanged = newGetUser(parameterKey);
                     Assert.assertNotNull(requestObject);
                     Assert.assertNotNull(objectToBeChanged);
-                    if (requestObject.get("objectName").equals(objectToBeChanged.get("objectName"))) {
+                    if (requestObject.get("_type").equals(objectToBeChanged.get("_type"))) {
                         Jedis jedis = new Jedis("localhost");
                         String createdOn = (String) objectToBeChanged.get("_createdOn");
                         String uid = (String) objectToBeChanged.get("_id");
