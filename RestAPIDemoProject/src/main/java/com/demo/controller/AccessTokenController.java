@@ -67,7 +67,7 @@ public class AccessTokenController {
             if (_tokenService.isTokenValidated(token, "Sample")) {
                 String userUid = _tokenService.getUserIdFromToken(token);
                 JSONObject accessToken = _tokenService.createAccessToken(userUid, roleName, subject);
-                System.out.println("Created Token with uid: " + accessToken.get("tokenId"));
+                //System.out.println("Created Token with uid: " + accessToken.get("tokenId"));
                 if (_userService.addTokenToUser(userUid, accessToken)) {
                     TokenEntity responseEntity = new TokenEntity();
                     responseEntity.id = (String) accessToken.get("tokenUid");
@@ -101,11 +101,11 @@ public class AccessTokenController {
             claims = Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(API_SECRET))
                     .parseClaimsJws(token).getBody();
-            System.out.println("ID: " + claims.getId());
-            System.out.println("Subject: " + claims.getSubject());
-            System.out.println("Issuer: " + claims.getIssuer());
-            System.out.println("Person: " + claims.get("person"));
-            System.out.println("Expiration: " + claims.getExpiration());
+            //System.out.println("ID: " + claims.getId());
+            //System.out.println("Subject: " + claims.getSubject());
+            //System.out.println("Issuer: " + claims.getIssuer());
+            //System.out.println("Person: " + claims.get("person"));
+            //System.out.println("Expiration: " + claims.getExpiration());
         } catch (ExpiredJwtException e) {
             response.sendError(429, "Token is expired");
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {

@@ -3,7 +3,7 @@ package com.demo.service.impl;
 import com.demo.pojo.AccessToken;
 import com.demo.pojo.User;
 import com.demo.service.PersonService;
-
+import com.demo.service.QueueService;
 import com.demo.service.TokenService;
 import com.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,6 +41,9 @@ public class PersonServiceImpl implements PersonService {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+    QueueService queueService;
 
 	Jedis jedisConnectiion = new Jedis("localhost");
 
@@ -120,7 +123,7 @@ public class PersonServiceImpl implements PersonService {
 						// Add to Jedis
 						jedis.set(uid, ((JSONObject) object).toJSONString());
 						// Send object to elasticsearch
-						// queueService.sendMessage((JSONObject) object);
+						 queueService.sendMessage((JSONObject) object);
 						// This is done to create link
 						count++;
 						JSONObject toPutInLink = new JSONObject();
@@ -150,7 +153,7 @@ public class PersonServiceImpl implements PersonService {
 						((JSONObject) property).put("_id", uid);
 						jedis.set(uid, ((JSONObject) property).toJSONString());
 						// Send object to elasticsearch
-						// queueService.sendMessage((JSONObject) property);
+						 queueService.sendMessage((JSONObject) property);
 						// Creating link over here
 						jsonObject.put("objectValue", uid);
 						personObject.put(objectType, jsonObject);
@@ -164,7 +167,7 @@ public class PersonServiceImpl implements PersonService {
 			// Metadata is stored jedis.
 			jedis.set((String) responseObject.get(bodyObj.get("_type")), personObject.toString());
 			// Send Metadata to elasticsearch
-			// queueService.sendMessage(personObject);
+			 queueService.sendMessage(personObject);
 			System.out.println("response" + responseObject.toJSONString());
 			return responseObject.toJSONString();
 		} catch (ParseException e) {
@@ -292,7 +295,7 @@ public class PersonServiceImpl implements PersonService {
 
 	private void processInitialData(Jedis jedis, Map<String, Object> bodyObj, JSONObject personObject,
 			JSONObject responseObject) {
-		String objectType = (String) bodyObj.get("_type");
+		String objectType = (String) bodyObj.get("_type");System.out.println("objectType"+objectType);
 		jedis.incr(objectType);
 		String uid = objectType + "__" + jedis.get(objectType);
 		personObject.put("_createdOn", getUnixTimestamp());

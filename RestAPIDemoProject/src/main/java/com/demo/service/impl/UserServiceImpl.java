@@ -1,6 +1,6 @@
 package com.demo.service.impl;
 
-
+import com.demo.service.QueueService;
 import com.demo.service.TokenService;
 import com.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +37,8 @@ public class UserServiceImpl
     @Autowired
     TokenService tokenService;
 
-    
+    @Autowired
+    QueueService _queueService;
 
     private String PERSON_COUNT = "PERSON_COUNT";
     private String USER_COUNT = "USER_COUNT";
@@ -169,7 +170,7 @@ public class UserServiceImpl
                         uid = processAndGetUid(jedis, objectType, (JSONObject) object);
                         //Add to Jedis
                         jedis.set(uid, ((JSONObject) object).toJSONString());
-                        //_queueService.sendMessage((JSONObject) object);
+                        _queueService.sendMessage((JSONObject) object);
                         // This is done to create link
                         JSONObject toPutInLink = new JSONObject();
                         toPutInLink.put(count++, uid);
@@ -186,7 +187,7 @@ System.out.println("objectType" + objectType);
 
                     uid = processAndGetUid(jedis, objectType, (JSONObject) property);
                     jedis.set(uid, ((JSONObject) property).toJSONString());
-                    //_queueService.sendMessage((JSONObject) property);
+                    _queueService.sendMessage((JSONObject) property);
                     // Creating link over here
                     JSONObject jsonObject = new JSONObject();
                     // jsonObject.put("objectType", objectType);
@@ -205,7 +206,7 @@ System.out.println("role" + role);
             userObject.put("eTag", calculateETag(userObject));
             responseObject.put("eTag", userObject.get("eTag"));
             jedis.set((String) responseObject.get(bodyObj.get("_type")), userObject.toJSONString());
-            //_queueService.sendMessage(userObject);
+            _queueService.sendMessage(userObject);
             return responseObject.toJSONString();
 
         } catch (ParseException | UnsupportedEncodingException | NoSuchAlgorithmException | JsonProcessingException e) {
@@ -412,7 +413,7 @@ System.out.println("role" + role);
             userMetaData.put("_modifiedOn", getUnixTimestamp());
 
             jedis.set(userUid, userMetaData.toJSONString());
-            //_queueService.sendMessage(userMetaData);
+            _queueService.sendMessage(userMetaData);
             return Boolean.TRUE;
 
         } catch (ParseException e) {

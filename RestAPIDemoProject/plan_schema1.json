@@ -6,41 +6,38 @@
 	"_type": "plan",
     "properties": {
         "_id": {
-            "id": "properties_id",
             "type": "string"
         },
         
         "creationDate": {
-            "id": "/properties/creationDate",
             "type": "string"
         },
         "linkedPlanServices": {
-            "id": "/properties/linkedPlanServices",
             "items": {
-                "id": "/properties/linkedPlanServices/items",
+               
 				"_type": "planService",
                 "properties": {
                     "_id": {
-                        "id": "/properties/linkedPlanServices/items/properties/_id",
+                        
                         "type": "string"
                     },
                     
                     "linkedService": {
                     
-                        "id": "/properties/linkedPlanServices/items/properties/linkedService",
+                        
 						"_type": "service",
                         "properties": {
                             "_id": {
-                                "id": "/properties/linkedPlanServices/items/properties/linkedService/properties/_id",
+                                
                                 "type": "string"
                             },
                             
                             "objectId": {
-                                "id": "/properties/linkedPlanServices/items/properties/linkedService/properties/objectId",
+                               
                                 "type": "string"
                             },
                             "objectType": {
-                                "id": "/properties/linkedPlanServices/items/properties/linkedService/properties/objectType",
+                                
                                 "type": "string"
                             }
                         },
@@ -50,37 +47,37 @@
                         "type": "object"
                     },
                     "objectId": {
-                        "id": "/properties/linkedPlanServices/items/properties/objectId",
+                        
                         "type": "string"
                     },
                     "objectType": {
-                        "id": "/properties/linkedPlanServices/items/properties/objectType",
+                        
                         "type": "string"
                     },
                     "planserviceCostShares": {
                     
-                        "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares",
+                        
 						"_type": "membercostshare",
                         "properties": {
                             "_id": {
-                                "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares/properties/_id",
+                                
                                 "type": "string"
                             },
                             
                             "copay": {
-                                "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares/properties/copay",
+                                
                                 "type": "integer"
                             },
                             "deductible": {
-                                "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares/properties/deductible",
+                                
                                 "type": "integer"
                             },
                             "objectId": {
-                                "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares/properties/objectId",
+                                
                                 "type": "string"
                             },
                             "objectType": {
-                                "id": "/properties/linkedPlanServices/items/properties/planserviceCostShares/properties/objectType",
+                                
                                 "type": "string"
                             }
                         },
@@ -104,37 +101,37 @@
             "type": "array"
         },
         "objectId": {
-            "id": "/properties/objectId",
+            
             "type": "string"
         },
         "objectType": {
-            "id": "/properties/objectType",
+            
             "type": "string"
         },
         "planCostShares": {
        
-            "id": "/properties/planCostShares",
+            
 			"_type": "membercostshare",
             "properties": {
                 "_id": {
-                    "id": "/properties/planCostShares/properties/_id",
+                    
                     "type": "string"
                 },
                 
                 "copay": {
-                    "id": "/properties/planCostShares/properties/copay",
+                    
                     "type": "integer"
                 },
                 "deductible": {
-                    "id": "/properties/planCostShares/properties/deductible",
+                    
                     "type": "integer"
                 },
                 "objectId": {
-                    "id": "/properties/planCostShares/properties/objectId",
+                    
                     "type": "string"
                 },
                 "objectType": {
-                    "id": "/properties/planCostShares/properties/objectType",
+                    
                     "type": "string"
                 }
             },

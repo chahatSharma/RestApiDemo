@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "objectName": "person",
+  "_type": "person",
   "additionalProperties": false,
   "type": "object",
   "properties": {
@@ -13,7 +13,7 @@
     "address": {
       "type": "array",
       "items": {
-        "objectName": "address",
+        "_type": "address",
         "type": "object",
         "properties": {
           "country": {
@@ -25,7 +25,7 @@
           "city": {
             "type": "string"
           },
-          "objectName": {
+          "_type": {
             "type": "string"
           },
           "street1": {
@@ -39,7 +39,7 @@
           }
         },
         "required": [
-          "objectName",
+          "_type",
           "street1",
           "city",
           "state",
@@ -48,33 +48,33 @@
         ]
       }
     },
-    "objectName": {
+    "_type": {
       "type": "string"
     },
     "user": {
-      "objectName": "user",
+      "_type": "user",
       "type": "object",
       "properties": {
         "password": {
           "type": "string"
         },
         "role": {
-          "objectName": "role",
+          "_type": "role",
           "type": "object",
           "properties": {
             "roleName": {
               "type": "string"
             },
-            "objectName": {
+            "_type": {
               "type": "string"
             }
           },
           "required": [
             "roleName",
-            "objectName"
+            "_type"
           ]
         },
-        "objectName": {
+        "_type": {
           "type": "string"
         },
         "username": {
@@ -84,32 +84,32 @@
       "required": [
         "password",
         "role",
-        "objectName",
+        "_type",
         "username"
       ]
     },
     "email": {
       "type": "array",
       "items": {
-        "objectName": "email",
+        "_type": "email",
         "type": "object",
         "properties": {
           "emailAddress": {
             "type": "string"
           },
-          "objectName": {
+          "_type": {
             "type": "string"
           }
         },
         "required": [
-          "objectName",
+          "_type",
           "emailAddress"
         ]
       }
     }
   },
   "required": [
-    "objectName",
+    "_type",
     "firstName",
     "lastName",
     "email",

@@ -34,12 +34,12 @@ public class SchemaConfiguration
             
         }
         String schema__benefit = jedisConnection.get("SCHEMA__plan1");
-        System.out.println("schema__benefit"+schema__benefit);
+        
         if (StringUtils.isBlank(schema__benefit)) {
             log.info("Creating Plan Schema");
             String schemaAsString = getSchemaAsString("plan_schema1.json");
            
-            	System.out.println("contains objectName" + schemaAsString);
+            	
             String result = _schemaService.addNewSchema(schemaAsString);
             //log.info("Result: " + result);
         }

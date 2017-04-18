@@ -56,14 +56,16 @@ public class PersonControllerV1 {
     public String addPerson(@RequestBody String body, HttpServletResponse response) throws IOException {
         if (!(body.isEmpty())) {
             try {
-                if (_schemaService.validateSchema(SCHEMA_LOCATION, body)) {System.out.println("Inside schema validation");
+                if (_schemaService.validateSchema(SCHEMA_LOCATION, body)) {
+                	System.out.println("Inside schema validation" + body);
+                	System.out.println("SCHEMA__person"+SCHEMA_LOCATION);
                     return _personService.v1AddPerson(body);
                 } else {
                     response.sendError(403, "Schema not validated");
                 }
             } catch (IOException | ProcessingException e) {
                 response.sendError(403, "Schema not validated");
-                System.out.println(e);
+                //System.out.println(e);
             }
         } else {
             System.out.println("body is blank");
@@ -97,8 +99,8 @@ public class PersonControllerV1 {
                               @RequestParam String parameterName,
                               @RequestBody String parameterValue,
                               HttpServletResponse response) throws IOException {
-        try {System.out.println("Inside token validated");
-            if (_tokenService.isTokenValidated(token, personId)) {System.out.println("tokenValidated");
+        try {//System.out.println("Inside token validated");
+            if (_tokenService.isTokenValidated(token, personId)) {//System.out.println("tokenValidated");
                 String userUid = _tokenService.getUserIdFromToken(token);
                 Validate.notNull(userUid, "UserUid can not be null to do further actions");
                 JSONObject result = _personService.newUpdatePerson(personId, parameterName, userUid, parameterValue);

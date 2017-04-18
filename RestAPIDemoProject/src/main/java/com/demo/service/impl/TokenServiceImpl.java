@@ -41,7 +41,7 @@ public class TokenServiceImpl
     @Override
     public Boolean isTokenValidated(String tokenBody, String userUid) throws ExpiredJwtException, SignatureException, MalformedJwtException {
         log.info("Validating token");
-        System.out.println("tokenBody"+ tokenBody);
+        //System.out.println("tokenBody"+ tokenBody);
         Claims claims;
         try {
             claims = Jwts.parser()
@@ -49,7 +49,7 @@ public class TokenServiceImpl
                     .parseClaimsJws(tokenBody).getBody();
             log.info("Token validated for user: " + claims.get("user"));
             log.debug("Token Validation Finished");
-            System.out.println("inside istokenvalidated");
+            //System.out.println("inside istokenvalidated");
             return Boolean.TRUE;
         } catch (UnsupportedJwtException e) {
             log.error(e);
